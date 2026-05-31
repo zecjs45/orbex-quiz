@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORBEX Quiz - Astronomia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="space-canvas"></canvas>
+
+    <div id="app-container">
+        
+        <section id="screen-login" class="screen active">
+            <div class="glass-panel text-center">
+                <h1 class="glitch-text" data-text="ORBEX">ORBEX</h1>
+                <p class="subtitle">Simulador Global de Conhecimento Cósmico</p>
+                <button id="btn-google-login" class="btn-sci-fi glow">Iniciar Sessão com Google</button>
+            </div>
+        </section>
+
+        <section id="screen-main" class="screen hidden">
+            <header class="top-bar">
+                <div class="user-info">
+                    <img id="user-avatar" src="" alt="Avatar">
+                    <span id="user-name">Comandante</span>
+                </div>
+                <div class="top-actions">
+                    <button id="btn-nav-profile" class="btn-icon">Perfil</button>
+                    <button id="btn-logout" class="btn-icon danger">Sair</button>
+                </div>
+            </header>
+            <div class="glass-panel main-menu-grid">
+                <h2>Terminal de Navegação</h2>
+                <button class="btn-sci-fi" onclick="orbex.prepareQuiz('Facil')">Modo: Treinamento (Fácil)</button>
+                <button class="btn-sci-fi" onclick="orbex.prepareQuiz('Medio')">Modo: Exploração (Médio)</button>
+                <button class="btn-sci-fi" onclick="orbex.prepareQuiz('Dificil')">Modo: Anomalia (Difícil)</button>
+                <button class="btn-sci-fi warning" onclick="orbex.prepareQuiz('Extremo')">Modo: Buraco Negro (Extremo)</button>
+                <hr class="divider">
+                <button class="btn-sci-fi alternate" id="btn-nav-challenge">Desafio Multiplayer</button>
+                <button class="btn-sci-fi alternate" id="btn-nav-ranking">Ranking Global</button>
+            </div>
+        </section>
+
+        <section id="screen-quiz" class="screen hidden">
+            <div class="hud">
+                <div class="score-display">PONTOS: <span id="current-score">0</span></div>
+                <div class="timer-display">TEMPO: <span id="time-left">15</span>s</div>
+            </div>
+            <div class="progress-container">
+                <div id="quiz-progress-bar"></div>
+            </div>
+            <div class="glass-panel quiz-container">
+                <h3 id="question-text">Analisando dados da questão...</h3>
+                <div id="answers-grid" class="answers-grid">
+                    </div>
+            </div>
+        </section>
+
+        <section id="screen-ranking" class="screen hidden">
+            <div class="glass-panel ranking-panel">
+                <h2>Ranking Global Top 100</h2>
+                <div class="table-container">
+                    <table id="ranking-table">
+                        <thead>
+                            <tr>
+                                <th>Pos</th>
+                                <th>Comandante</th>
+                                <th>Pontuação</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ranking-body">
+                            </tbody>
+                    </table>
+                </div>
+                <button class="btn-sci-fi mt-20" onclick="orbex.showScreen('screen-main')">Voltar ao Terminal</button>
+            </div>
+        </section>
+
+        <section id="screen-profile" class="screen hidden">
+            <div class="glass-panel profile-panel">
+                <h2>Dossiê do Comandante</h2>
+                <div class="stats-grid">
+                    <div class="stat-box">Maior Pontuação: <span id="stat-high-score">0</span></div>
+                    <div class="stat-box">Partidas Jogadas: <span id="stat-games">0</span></div>
+                </div>
+                <h3>Medalhas de Honra</h3>
+                <div class="medals-container" id="medals-container">
+                    </div>
+                <button class="btn-sci-fi mt-20" onclick="orbex.showScreen('screen-main')">Voltar ao Terminal</button>
+            </div>
+        </section>
+
+        <section id="screen-challenge" class="screen hidden">
+            <div class="glass-panel text-center">
+                <h2>Conexão de Frota (Multiplayer)</h2>
+                <p>Crie uma anomalia ou junte-se a uma existente.</p>
+                <div class="challenge-actions">
+                    <button class="btn-sci-fi" onclick="orbex.createChallenge()">Criar Código</button>
+                    <p>OU</p>
+                    <input type="text" id="challenge-input" placeholder="Insira o Código (Ex: X7F9A)" class="sci-fi-input">
+                    <button class="btn-sci-fi alternate" onclick="orbex.joinChallenge()">Entrar</button>
+                </div>
+                <h3 id="challenge-code-display" class="mt-20"></h3>
+                <button class="btn-sci-fi mt-20" onclick="orbex.showScreen('screen-main')">Voltar</button>
+            </div>
+        </section>
+
+        <section id="screen-result" class="screen hidden">
+            <div class="glass-panel text-center">
+                <h2>Simulação Concluída</h2>
+                <div class="final-score">Pontuação Total: <span id="final-score-text">0</span></div>
+                <p id="anti-cheat-warning" style="color: #ff4c4c; display: none;">Anomalia temporal detectada (Anti-Cheat). Pontuação não enviada.</p>
+                <button class="btn-sci-fi mt-20" onclick="orbex.showScreen('screen-main')">Retornar à Base</button>
+                <button class="btn-sci-fi alternate mt-20" onclick="orbex.showScreen('screen-ranking')">Ver Ranking Global</button>
+            </div>
+        </section>
+
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>

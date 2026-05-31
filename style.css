@@ -1,0 +1,270 @@
+:root {
+    --bg-color: #0b0c10;
+    --panel-bg: rgba(31, 40, 51, 0.75);
+    --primary-cyan: #66fcf1;
+    --dark-cyan: #45a29e;
+    --text-light: #c5c6c7;
+    --danger-red: #ff4c4c;
+    --gold: #ffd700;
+    --silver: #c0c0c0;
+    --bronze: #cd7f32;
+    --font-heading: 'Orbitron', sans-serif;
+    --font-body: 'Rajdhani', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-light);
+    font-family: var(--font-body);
+    overflow: hidden; /* Mantém as partículas no fundo */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Fundo Animado via Canvas */
+#space-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+#app-container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 800px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+/* Telas e Visibilidade */
+.screen {
+    display: none;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.screen.active {
+    display: flex;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Painéis de Vidro Sci-fi */
+.glass-panel {
+    background: var(--panel-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(102, 252, 241, 0.2);
+    border-radius: 15px;
+    padding: 30px;
+    width: 100%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(69, 162, 158, 0.1);
+}
+
+.text-center { text-align: center; }
+.mt-20 { margin-top: 20px; }
+
+h1, h2, h3 {
+    font-family: var(--font-heading);
+    color: var(--primary-cyan);
+    text-shadow: 0 0 10px rgba(102, 252, 241, 0.5);
+    margin-bottom: 15px;
+}
+
+.glitch-text {
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: 5px;
+}
+
+/* Botões Futuristas */
+.btn-sci-fi {
+    background: transparent;
+    border: 2px solid var(--primary-cyan);
+    color: var(--primary-cyan);
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    padding: 12px 25px;
+    margin: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-sci-fi:hover {
+    background: var(--primary-cyan);
+    color: var(--bg-color);
+    box-shadow: 0 0 15px var(--primary-cyan);
+}
+
+.btn-sci-fi.alternate {
+    border-color: var(--dark-cyan);
+    color: var(--text-light);
+}
+.btn-sci-fi.alternate:hover {
+    background: var(--dark-cyan);
+    color: #fff;
+    box-shadow: 0 0 15px var(--dark-cyan);
+}
+
+.btn-sci-fi.warning {
+    border-color: #9d4edd;
+    color: #c77dff;
+}
+.btn-sci-fi.warning:hover {
+    background: #9d4edd;
+    color: #fff;
+    box-shadow: 0 0 15px #9d4edd;
+}
+
+.btn-icon {
+    background: none;
+    border: 1px solid var(--text-light);
+    color: var(--text-light);
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: var(--font-body);
+}
+.btn-icon:hover { background: rgba(255,255,255,0.1); }
+.btn-icon.danger { border-color: var(--danger-red); color: var(--danger-red); }
+
+/* Top Bar Menu */
+.top-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background: var(--panel-bg);
+    border-radius: 10px;
+    border-bottom: 2px solid var(--primary-cyan);
+}
+
+.user-info { display: flex; align-items: center; gap: 10px; }
+.user-info img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-cyan); }
+.user-info span { font-family: var(--font-heading); font-size: 1.2rem; color: #fff; }
+
+/* Quiz HUD */
+.hud {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+}
+.score-display { color: var(--primary-cyan); }
+.timer-display { color: var(--danger-red); text-shadow: 0 0 10px var(--danger-red); }
+
+/* Barra de Progresso */
+.progress-container {
+    width: 100%;
+    height: 10px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 5px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+#quiz-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--dark-cyan), var(--primary-cyan));
+    transition: width 0.3s ease;
+}
+
+/* Grid de Respostas */
+.answers-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+@media(min-width: 600px) {
+    .answers-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* Tabela de Ranking */
+.table-container {
+    max-height: 400px;
+    overflow-y: auto;
+    width: 100%;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid rgba(102, 252, 241, 0.2);
+}
+th { font-family: var(--font-heading); color: var(--primary-cyan); position: sticky; top: 0; background: var(--bg-color); z-index: 2; }
+td { font-size: 1.1rem; }
+.rank-1 { color: var(--gold); font-weight: bold; text-shadow: 0 0 5px var(--gold); }
+.rank-2 { color: var(--silver); font-weight: bold; }
+.rank-3 { color: var(--bronze); font-weight: bold; }
+
+/* Perfil e Medalhas */
+.stats-grid { display: flex; justify-content: space-around; margin-bottom: 20px; }
+.stat-box { background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; border: 1px solid var(--dark-cyan); text-align: center; font-size: 1.2rem;}
+.stat-box span { display: block; font-size: 2rem; color: var(--primary-cyan); font-family: var(--font-heading); }
+.medals-container { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+.medal { width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; font-weight: bold; font-family: var(--font-heading); }
+.medal.gold { background: linear-gradient(135deg, #ffd700, #b8860b); color: #fff; box-shadow: 0 0 15px #ffd700; }
+.medal.silver { background: linear-gradient(135deg, #e0e0e0, #a0a0a0); color: #fff; box-shadow: 0 0 15px #e0e0e0; }
+.medal.bronze { background: linear-gradient(135deg, #cd7f32, #8b4513); color: #fff; box-shadow: 0 0 15px #cd7f32; }
+.medal.locked { background: #333; color: #555; border: 2px dashed #555; }
+
+/* Input Sci-Fi */
+.sci-fi-input {
+    width: 100%;
+    padding: 12px;
+    margin: 15px 0;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid var(--dark-cyan);
+    color: var(--primary-cyan);
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    text-align: center;
+    border-radius: 5px;
+    outline: none;
+}
+.sci-fi-input:focus { border-color: var(--primary-cyan); box-shadow: 0 0 10px var(--primary-cyan); }
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #0b0c10; }
+::-webkit-scrollbar-thumb { background: var(--dark-cyan); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary-cyan); }
